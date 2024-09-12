@@ -21,25 +21,35 @@ void print_node(struct Node*);
 void free_from_end(struct List *l);
 void free_list(struct List *l);
 bool search_value(struct List *l, int search);
+struct List copy_list(struct List *l);
 
 int main(void)
 {
 	struct List ma_liste = create_list();
 	struct Node *my_node = create_node(123);
+	printf("List 1\n");
 	print_list(ma_liste);
 	printf("\n");
 	add_value(&ma_liste, 7);
 	add_value(&ma_liste, 9);
+	printf("List 1\n");
 	print_list(ma_liste);
 	if(search_value(&ma_liste, 9) == true)
 		printf("Found node !\n");
 	else printf("No node exists with such value :(\n");
 
+	struct List new_list = copy_list(&ma_liste);
+	printf("\n");
+	printf("List 2\n");
+	print_list(new_list);
+
 		
 	printf("\n");
 	free(my_node);
 	free_list(&ma_liste);
+	free_list(&new_list);
 	print_list(ma_liste);
+	print_list(new_list);
 	
 	return 0;
 }
@@ -143,4 +153,21 @@ void free_list(struct List *l)
 	{
 		free_from_end(l);
 	}
+}
+struct List copy_list(struct List *l)
+{
+	printf("\n\nCreating new list...\n");
+	struct List new_list = create_list();
+
+	struct Node *current_node = l->root;
+
+	while(current_node != NULL)
+	{
+		printf("%d\n", new_list.n);
+		add_value(&new_list, current_node->value);
+		current_node = current_node->next;
+	}
+	printf("%d\n", new_list.n);
+
+	return new_list;
 }
