@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 struct Node
 {
@@ -11,13 +12,15 @@ struct List
 	int n;
 	struct Node *root;
 };
+
 void add_value(struct List *, int value);
-struct Node * create_node(int value);
+struct Node *create_node(int value);
 struct List create_list();
-void free_list(struct List *l);
 void print_list(struct List);
 void print_node(struct Node*);
 void free_from_end(struct List *l);
+void free_list(struct List *l);
+bool search_value(struct List *l, int search);
 
 int main(void)
 {
@@ -28,6 +31,11 @@ int main(void)
 	add_value(&ma_liste, 7);
 	add_value(&ma_liste, 9);
 	print_list(ma_liste);
+	if(search_value(&ma_liste, 9) == true)
+		printf("Found node !\n");
+	else printf("No node exists with such value :(\n");
+
+		
 	printf("\n");
 	free(my_node);
 	free_list(&ma_liste);
@@ -51,7 +59,7 @@ void print_list(struct List l)
 	}
 	printf("list contains %d elements\n", l.n);
 }
-struct Node * create_node(int value)
+struct Node *create_node(int value)
 {
 	struct Node *n = (struct Node *) malloc(sizeof(struct Node));
 	if (n != NULL)
@@ -100,8 +108,15 @@ void add_value(struct List *list, int value)
 }
 
 
-void node_exists(struct List l, int value)
+bool search_value(struct List *l, int search)
 {
+	struct Node *current = l->root;
+	if(current->value == search)
+	{
+		return true;
+	}
+	else current = current->next;
+	return false;
 }
 
 void free_from_end(struct List *l)
