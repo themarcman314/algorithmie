@@ -22,6 +22,8 @@ void free_from_end(struct List *l);
 void free_list(struct List *l);
 bool search_value(struct List *l, int search);
 struct List copy_list(struct List *l);
+void remove_value(struct List *l, int);
+void delete_node(struct List *l, struct Node *node_to_delete);
 
 int main(void)
 {
@@ -46,10 +48,13 @@ int main(void)
 		
 	printf("\n");
 	free(my_node);
-	free_list(&ma_liste);
-	free_list(&new_list);
+	//free_list(&ma_liste);
+	//free_list(&new_list);
 	print_list(ma_liste);
 	print_list(new_list);
+	remove_value(&ma_liste, 7);
+	print_list(ma_liste);
+
 	
 	return 0;
 }
@@ -121,11 +126,14 @@ void add_value(struct List *list, int value)
 bool search_value(struct List *l, int search)
 {
 	struct Node *current = l->root;
-	if(current->value == search)
+	while(current->next != NULL)
 	{
-		return true;
+		if(current->value == search)
+		{
+			return true;
+		}
+		current = current->next;
 	}
-	else current = current->next;
 	return false;
 }
 
@@ -170,4 +178,37 @@ struct List copy_list(struct List *l)
 	printf("%d\n", new_list.n);
 
 	return new_list;
+}
+void remove_value(struct List *l, int value_to_remove)
+{
+	struct Node *current = l->root;
+	while(current->next != NULL)
+	{
+		struct Node *temp;
+		printf("%p\n", temp);
+		// remove root value
+		if(current->value == value_to_remove)
+		{
+			temp = l->root;
+			l->root = current->next;
+			delete_node(l, temp);
+		}
+		// remove any other value
+		else if (current->next->value == value_to_remove)
+		{
+			temp = current->next;
+			current->next = current->next->next;
+			delete_node(l, temp);
+		}
+		// free memory
+		current = current->next;
+	}
+}
+
+void delete_node(struct List *l, struct Node *node_to_delete)
+{
+	free(node_to_delete);
+	l->n--;
+	printf("Free'd memory associated with one node\n");
+	printf("%d nodes remain\n", l->n);
 }
