@@ -13,9 +13,9 @@ struct List
 	struct Node *root;
 };
 
-void add_value(struct List *, int value);
-struct Node *create_node(int value);
 struct List create_list();
+struct Node *create_node(int value);
+void add_value(struct List *, int value);
 void print_list(struct List);
 void print_node(struct Node*);
 void free_from_end(struct List *l);
@@ -125,14 +125,23 @@ void add_value(struct List *list, int value)
 
 bool search_value(struct List *l, int search)
 {
-	struct Node *current = l->root;
-	while(current->next != NULL)
+	if(l->root == NULL)
 	{
-		if(current->value == search)
+		printf("list has no nodes");
+		return false;
+	}
+	else
+	{
+		struct Node *current = l->root;
+		while(current != NULL)
 		{
-			return true;
+			printf("value of node in search : %d\n", current->value);
+			if(current->value == search)
+			{
+				return true;
+			}
+			current = current->next;
 		}
-		current = current->next;
 	}
 	return false;
 }
