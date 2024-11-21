@@ -34,25 +34,25 @@ int main(void)
 	printf("\n");
 	add_value(&ma_liste, 7);
 	add_value(&ma_liste, 9);
+	add_value(&ma_liste, 2);
 	printf("List 1\n");
 	print_list(ma_liste);
-	if(search_value(&ma_liste, 9) == true)
-		printf("Found node !\n");
-	else printf("No node exists with such value :(\n");
-
-	struct List new_list = copy_list(&ma_liste);
-	printf("\n");
-	printf("List 2\n");
-	print_list(new_list);
-
-		
-	printf("\n");
+//	if(search_value(&ma_liste, 9) == true)
+//		printf("Found node !\n");
+//	else printf("No node exists with such value :(\n");
+//
+//	struct List new_list = copy_list(&ma_liste);
+//	printf("\n");
+//	printf("List 2\n");
+//	print_list(new_list);
+//
+//		
+//	printf("\n");
 	free(my_node);
 	//free_list(&ma_liste);
 	//free_list(&new_list);
-	print_list(ma_liste);
-	print_list(new_list);
-	remove_value(&ma_liste, 7);
+	printf("\n\n\n");
+	remove_value(&ma_liste, 2);
 	print_list(ma_liste);
 
 	
@@ -190,27 +190,37 @@ struct List copy_list(struct List *l)
 }
 void remove_value(struct List *l, int value_to_remove)
 {
-	struct Node *current = l->root;
-	while(current->next != NULL)
+	if(l->root == NULL)
+	{
+		printf("List already empty");
+		return;
+	}
+
+	// remove root value
+	if(l->root->value == value_to_remove)
 	{
 		struct Node *temp;
-		printf("%p\n", temp);
-		// remove root value
-		if(current->value == value_to_remove)
-		{
-			temp = l->root;
-			l->root = current->next;
-			delete_node(l, temp);
-		}
-		// remove any other value
-		else if (current->next->value == value_to_remove)
-		{
-			temp = current->next;
-			current->next = current->next->next;
-			delete_node(l, temp);
-		}
-		// free memory
+		// store a reference of node pointer to delete
+		temp = l->root;
+		// assign new root node
+		l->root = l->root->next;
+		delete_node(l, temp);
+		return;
+	}
+
+	// walk the list to find node
+	struct Node *current = l->root;
+	while(l->root != NULL && current->next->value != value_to_remove)
+	{
 		current = current->next;
+	}
+
+	// remove any other value
+	if (current->next->value == value_to_remove)
+	{
+		struct Node *temp = current->next;
+		current->next = current->next->next;
+		delete_node(l, temp);
 	}
 }
 
