@@ -13,15 +13,17 @@ struct List
 	struct Node *root;
 };
 
-void add_value(struct List *, int value);
-struct Node *create_node(int value);
 struct List create_list();
+struct Node *create_node(int value);
+void add_value(struct List *, int value);
 void print_list(struct List);
 void print_node(struct Node*);
 void free_from_end(struct List *l);
 void free_list(struct List *l);
 bool search_value(struct List *l, int search);
 struct List copy_list(struct List *l);
+void remove_value(struct List *l, int);
+void delete_node(struct List *l, struct Node *node_to_delete);
 
 int main(void)
 {
@@ -32,24 +34,27 @@ int main(void)
 	printf("\n");
 	add_value(&ma_liste, 7);
 	add_value(&ma_liste, 9);
+	add_value(&ma_liste, 2);
 	printf("List 1\n");
 	print_list(ma_liste);
-	if(search_value(&ma_liste, 9) == true)
-		printf("Found node !\n");
-	else printf("No node exists with such value :(\n");
-
-	struct List new_list = copy_list(&ma_liste);
-	printf("\n");
-	printf("List 2\n");
-	print_list(new_list);
-
-		
-	printf("\n");
+//	if(search_value(&ma_liste, 9) == true)
+//		printf("Found node !\n");
+//	else printf("No node exists with such value :(\n");
+//
+//	struct List new_list = copy_list(&ma_liste);
+//	printf("\n");
+//	printf("List 2\n");
+//	print_list(new_list);
+//
+//		
+//	printf("\n");
 	free(my_node);
-	free_list(&ma_liste);
-	free_list(&new_list);
+	//free_list(&ma_liste);
+	//free_list(&new_list);
+	printf("\n\n\n");
+	remove_value(&ma_liste, 2);
 	print_list(ma_liste);
-	print_list(new_list);
+
 	
 	return 0;
 }
@@ -120,12 +125,24 @@ void add_value(struct List *list, int value)
 
 bool search_value(struct List *l, int search)
 {
-	struct Node *current = l->root;
-	if(current->value == search)
+	if(l->root == NULL)
 	{
-		return true;
+		printf("list has no nodes");
+		return false;
 	}
-	else current = current->next;
+	else
+	{
+		struct Node *current = l->root;
+		while(current != NULL)
+		{
+			printf("value of node in search : %d\n", current->value);
+			if(current->value == search)
+			{
+				return true;
+			}
+			current = current->next;
+		}
+	}
 	return false;
 }
 
@@ -170,4 +187,47 @@ struct List copy_list(struct List *l)
 	printf("%d\n", new_list.n);
 
 	return new_list;
+}
+void remove_value(struct List *l, int value_to_remove)
+{
+	if(l->root == NULL)
+	{
+		printf("List already empty");
+		return;
+	}
+
+	// remove root value
+	if(l->root->value == value_to_remove)
+	{
+		struct Node *temp;
+		// store a reference of node pointer to delete
+		temp = l->root;
+		// assign new root node
+		l->root = l->root->next;
+		delete_node(l, temp);
+		return;
+	}
+
+	// walk the list to find node
+	struct Node *current = l->root;
+	while(l->root != NULL && current->next->value != value_to_remove)
+	{
+		current = current->next;
+	}
+
+	// remove any other value
+	if (current->next->value == value_to_remove)
+	{
+		struct Node *temp = current->next;
+		current->next = current->next->next;
+		delete_node(l, temp);
+	}
+}
+
+void delete_node(struct List *l, struct Node *node_to_delete)
+{
+	free(node_to_delete);
+	l->n--;
+	printf("Free'd memory associated with one node\n");
+	printf("%d nodes remain\n", l->n);
 }
