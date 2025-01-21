@@ -17,53 +17,62 @@ def main():
 
     t = create_tree()
     display_tree(t)
-    insert_in_sorted_tree(t, 9)
-    print("\n\n")
+    #insert_in_sorted_tree(t, 9)
+    #print("\n\n")
+    #display_tree(t)
+    #insert_in_sorted_tree(t, 10)
+    #print("\n\n")
+    #display_tree(t)
+    #insert_in_sorted_tree(t, 2)
+    #print("\n\n")
+    #display_tree(t)
+    #insert_in_sorted_tree(t, 4)
+    #print("\n\n")
+    #display_tree(t)
+    #insert_in_sorted_tree(t, 7)
+    #print("\n\n")
+    #display_tree(t)
+    #insert_in_sorted_tree(t, 12)
+    #print("\n\n")
+    #display_tree(t)
+    #insert_in_sorted_tree(t, 3)
+    #print("\n\n")
+    #display_tree(t)
+    #insert_in_sorted_tree(t, 4)
+    #print("\n\n")
+
+    insert_in_sorted_tree(t, 100)
+    #display_tree(t)
+    insert_in_sorted_tree(t, 50)
+    #display_tree(t)
+    insert_in_sorted_tree(t, 25)
+    #display_tree(t)
+    insert_in_sorted_tree(t, 75)
+    #display_tree(t)
+    insert_in_sorted_tree(t, 100)
     display_tree(t)
-    insert_in_sorted_tree(t, 10)
-    print("\n\n")
-    display_tree(t)
-    insert_in_sorted_tree(t, 2)
-    print("\n\n")
-    display_tree(t)
-    insert_in_sorted_tree(t, 4)
-    print("\n\n")
-    display_tree(t)
-    insert_in_sorted_tree(t, 7)
-    print("\n\n")
-    display_tree(t)
-    insert_in_sorted_tree(t, 12)
-    print("\n\n")
-    display_tree(t)
-    insert_in_sorted_tree(t, 3)
-    print("\n\n")
-    display_tree(t)
-    insert_in_sorted_tree(t, 4)
-    print("\n\n")
-    display_tree(t)
+    #insert_in_sorted_tree(t, 99)
+    #display_tree(t)
+    #insert_in_sorted_tree(t, 200)
+    #display_tree(t)
+    #insert_in_sorted_tree(t, 175)
+    #display_tree(t)
+    #insert_in_sorted_tree(t, 300)
+    #display_tree(t)
+    #insert_in_sorted_tree(t, 350)
+    #display_tree(t)
+    #insert_in_sorted_tree(t, 320)
+    #display_tree(t)
+    #print("\n\n")
+    #display_tree(t)
 
 
-    if is_present_sorted_tree(t, 2) == True:
-        print("found!")
-    else :
-        print("not found :(")
-
-    if is_present_sorted_tree(t, 5) == True:
-        print("found!")
-    else :
-        print("not found :(")
-
-    if is_present_sorted_tree(t, 10) == True:
-        print("found!")
-    else :
-        print("not found :(")
-
-    if is_present_sorted_tree(t, 4) == True:
-        print("found!")
-    else :
-        print("not found :(")
 
 
+def pivot_branch(n:Node):
+    n.right = n
+    n = n.right.left
+    
 def create_node(val:int):
     n:Node = Node()
     n.value = val
@@ -104,7 +113,7 @@ def insert_in_sorted_tree(t:SortedTree, value:int):
         t.root = new_node
     else :
         current_node = t.root
-        while (current_node.left != None and value < current_node.value) or (current_node.right != None and value > current_node.value) :
+        while (current_node.left != None and value <= current_node.value) or (current_node.right != None and value > current_node.value) :
             if value <= current_node.value :
                 current_node = current_node.left
             else :
@@ -141,7 +150,7 @@ def is_present_sorted_tree(t:SortedTree, value:int)->bool:
                 current_node = current_node.right
         else :
             return False
-    
+
     return True
 
 
