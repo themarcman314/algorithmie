@@ -2,11 +2,11 @@
 import numpy as np
 import time
 
-fibo_cache = np.zeros(500, int)
+fibo_cache = np.zeros(10000000, int)
 #print(fibo_cache)
 def main():
     start = time.time()
-    print(fibonacci_memo(70))
+    print(fibonacci_memo(92))
     end = time.time()
     print(f"Temps d'exécution : {end - start:.6f} secondes")
 
