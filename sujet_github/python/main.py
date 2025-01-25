@@ -25,9 +25,7 @@ class Player:
 def main():
     createGraph()
 
-
-
-def createNode(name:str) -> Node:
+def createNode(name:str) -> Node
     new_room:Node = Node()
     new_room.name = name
     new_room.portals = []
